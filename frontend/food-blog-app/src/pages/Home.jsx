@@ -1,0 +1,45 @@
+import React from 'react'
+import foodRecipe from '../assets/foodRecipe.png'
+import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
+import Recipeitems from '../../components/Recipeitems'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import Modal from '../../components/Modal'
+import InputForm from '../../components/InputForm'
+
+export default function Home() {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false)
+
+  const addRecipe=()=>{
+  let token = localStorage.getItem("token")
+  if(token)
+    navigate("/addRecipe")
+  else{
+    setIsOpen(true)
+  }
+}
+  return (
+    <>
+        <section className='home'>
+                <div className='left'>
+                    <h1>Welcome to Food Blog</h1>
+                    <h5>Discover, share, and enjoy recipes from around the world. Whether you're a seasoned chef or a beginner in the kitchen, there's something delicious here for everyone!</h5>
+                    <h5>Upload your favorite recipes, explore what others are cooking, and become a part of our growing food-loving community.</h5>
+                    <button onClick={addRecipe}>Share your recipe</button>
+                </div>
+                <div className='right'>
+                    <img src={foodRecipe} width="320px" height="300px"></img>
+                </div>
+            </section>
+            <div className='bg'>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#d4f6e8" fillOpacity="1" d="M0,128L48,144C96,160,192,192,288,218.7C384,245,480,267,576,240C672,213,768,139,864,96C960,53,1056,43,1152,58.7C1248,75,1344,117,1392,138.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+            </div>
+            {(isOpen)&& <Modal  onClose={()=>setIsOpen(false)}><InputForm setIsOpen={()=>setIsOpen(false)}/></Modal>}
+            <div className="recipe">
+              <Recipeitems/>
+            </div>
+    </>
+  )
+}
